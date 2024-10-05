@@ -16,40 +16,41 @@ def parse_and_process_logs(flow_log_file, lookup):
     # Initialize dictionaries to store tag and port/protocol combination counts
     tag_counts = {}
     port_protocol_counts = {}
-    
+
     with open(flow_log_file, mode='r') as file:
         for row in file:
-            # Parse the flow log line
-            fields = row.split()
-            # Extracting the specific port and protocol while parsing through the fields of logs 
-            dstport = int(fields[5]) 
-            protocol_num = fields[7]  
-            
-            # Convert protocol number to string representation
-            if protocol_num == '6':
-                protocol = 'tcp'
-            elif protocol_num == '17':
-                protocol = 'udp'
-            else:
-                protocol = 'unknown'
-            
-            # Lookup the tag for the port/protocol
-            tag = lookup.get((dstport, protocol), "Untagged")
-            
-            # Count the tag
-            if tag in tag_counts:
-                tag_counts[tag] += 1
-            else:
-                tag_counts[tag] = 1
-            
-            # Count the port/protocol combination
-            port_protocol_key = (dstport, protocol)
+            if row.startswith("2"):
+                # Parse the flow log line
+                fields = row.split()
+                # Extracting the specific port and protocol while parsing through the fields of logs 
+                dstport = int(fields[5]) 
+                protocol_num = fields[7]  
+                
+                # Convert protocol number to string representation
+                if protocol_num == '6':
+                    protocol = 'tcp'
+                elif protocol_num == '17':
+                    protocol = 'udp'
+                else:
+                    protocol = 'unknown'
+                
+                # Lookup the tag for the port/protocol
+                tag = lookup.get((dstport, protocol), "Untagged")
+                
+                # Count the tag
+                if tag in tag_counts:
+                    tag_counts[tag] += 1
+                else:
+                    tag_counts[tag] = 1
+                
+                # Count the port/protocol combination
+                port_protocol_key = (dstport, protocol)
 
-            # Checking 
-            if port_protocol_key in port_protocol_counts:
-                port_protocol_counts[port_protocol_key] += 1
-            else:
-                port_protocol_counts[port_protocol_key] = 1
+                # Checking 
+                if port_protocol_key in port_protocol_counts:
+                    port_protocol_counts[port_protocol_key] += 1
+                else:
+                    port_protocol_counts[port_protocol_key] = 1
 
     return tag_counts, port_protocol_counts
 
