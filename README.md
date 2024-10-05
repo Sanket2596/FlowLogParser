@@ -15,10 +15,11 @@ This program processes AWS VPC flow logs and maps each flow to a tag based on a 
    
    git clone https://github.com/Sanket2596/FlowLogParser.git
    cd FlowLogParser
+   cd src
 
-2. Run the command: python flow_log_parser.py.
+2. Inside src -> Run the command: python flow_log_parser.py.
 
--> The program will generate two output files:
+-> The program will generate two output files: in the output directory
 1. tag_counts.csv: Count of matches for each tag.
 2. port_protocol_counts.csv: Count of matches for each port/protocol combination.
 
