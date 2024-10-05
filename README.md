@@ -42,4 +42,7 @@ Explanation for assumption -> w log entry doesn’t have a corresponding tag in 
 
 # Test Cases: 
 
-1) 
+# Steps to exceute the Test cases:
+1) Create Input Files: For each test case, create flow_logs.txt and lookup_table.csv in the src directory as specified.
+2) Run the Code: Execute your Python script.
+3) Check Output Files: Verify the contents of the output files in the outputs directory against the expected output.
