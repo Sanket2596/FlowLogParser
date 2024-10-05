@@ -1,7 +1,7 @@
 ## FlowLogParser
 Flow Log Parser - Illumio Technical assessment
 
-This program processes AWS VPC flow logs and maps each flow to a tag based on a lookup table of `dstport` and `protocol`. It outputs the count of logs per tag and per port/protocol combination. 
+This program processes AWS VPC flow logs and maps each flow to a tag based on a lookup table of 'dstport' and 'protocol'. It outputs the count of logs per tag and per port/protocol combination. 
 
 ## Requirements
 

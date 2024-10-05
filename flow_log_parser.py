@@ -1,4 +1,5 @@
 import csv
+import os
 
 def parse_lookup_table(lookup_file):
     lookup = {}
@@ -54,12 +55,14 @@ def parse_and_process_logs(flow_log_file, lookup):
 
     return tag_counts, port_protocol_counts
 
-def write_output(tag_counts, port_protocol_counts, tag_output_file, port_protocol_output_file):
+def write_output(tag_counts, port_protocol_counts, output_directory):
+    tag_output_file = os.path.join(output_directory, 'tag_counts.csv')
     with open(tag_output_file, mode='w') as file:
         file.write("Tag,Count\n")
         for tag, count in tag_counts.items():
             file.write(f"{tag},{count}\n")
     
+    port_protocol_output_file = os.path.join(output_directory, 'port_protocol_counts.csv')
     # Write Port/Protocol Combination Counts -> this will print the output in the required format
     with open(port_protocol_output_file, mode='w') as file:
         file.write("Port,Protocol,Count\n")
@@ -70,19 +73,19 @@ def main():
     # Input files
     flow_log_file = 'flow_logs.txt'
     lookup_file = 'lookup_table.csv'
+    output_directory = 'outputs'
 
-    # Output files
-    tag_output_file = 'tag_counts.csv'
-    port_protocol_output_file = 'port_protocol_counts.csv'
+   # Create outputs directory if it doesn't exist
+    os.makedirs(output_directory, exist_ok=True)
 
-    # Load the lookup table
+
+     # Load the lookup table
     lookup = parse_lookup_table(lookup_file)
-
-    # Process the flow logs
     tag_counts, port_protocol_counts = parse_and_process_logs(flow_log_file, lookup)
 
-    # Write the results to output files
-    write_output(tag_counts, port_protocol_counts, tag_output_file, port_protocol_output_file)
+    # Call the updated write_output function
+    write_output(tag_counts, port_protocol_counts, output_directory)
+
 
 if __name__ == '__main__':
     main()
