@@ -12,8 +12,8 @@ class TestFlowLogParser(unittest.TestCase):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch("os.makedirs", return_value=True)
+    
     def test_case_1_basic_functionality(self, mock_makedirs, mock_open_func):
-        # Mock the lookup table and flow log content
         mock_open_func.side_effect = [
             mock_open(read_data="dstport,protocol,tag\n443,tcp,sv_P2\n1030,tcp,sv_P1\n22,tcp,sv_P4\n").return_value,
             mock_open(read_data="2 123456789012 eni-0a1b2c3d 10.0.1.201 198.51.100.2 443 49153 6 25 20000 1620140761 1620140821 ACCEPT OK\n"
@@ -30,8 +30,8 @@ class TestFlowLogParser(unittest.TestCase):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch("os.makedirs", return_value=True)
+
     def test_case_2_no_matches(self, mock_makedirs, mock_open_func):
-        # Mock the lookup table and flow log content
         mock_open_func.side_effect = [
             mock_open(read_data="dstport,protocol,tag\n443,tcp,sv_P2\n1030,tcp,sv_P1\n22,tcp,sv_P4\n").return_value,
             mock_open(read_data="2 123456789012 eni-0a1b2c3d 10.0.1.201 198.51.100.2 80 49153 6 25 20000 1620140761 1620140821 ACCEPT OK\n"
@@ -47,8 +47,8 @@ class TestFlowLogParser(unittest.TestCase):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch("os.makedirs", return_value=True)
+
     def test_case_3_multiple_entries_same_tag(self, mock_makedirs, mock_open_func):
-        # Mock the lookup table and flow log content
         mock_open_func.side_effect = [
             mock_open(read_data="dstport,protocol,tag\n443,tcp,sv_P2\n").return_value,
             mock_open(read_data="2 123456789012 eni-0a1b2c3d 10.0.1.201 198.51.100.2 443 49153 6 25 20000 1620140761 1620140821 ACCEPT OK\n"
@@ -60,11 +60,12 @@ class TestFlowLogParser(unittest.TestCase):
         flow_logs = 'flow_logs.txt'
         tag_counts, port_protocol_counts = parse_and_process_logs(flow_logs, lookup)
 
-        self.assertEqual(tag_counts, {'sv_P2': 3})
+        self.assertEqual(tag_counts, {'Untagged': 0,'sv_P2': 3})
         self.assertEqual(port_protocol_counts, {(443, 'tcp'): 3})
 
     @patch('builtins.open', new_callable=mock_open)
     @patch("os.makedirs", return_value=True)
+
     def test_case_4_mixed_protocols(self, mock_makedirs, mock_open_func):
         # Mock the lookup table and flow log content
         mock_open_func.side_effect = [
@@ -77,7 +78,7 @@ class TestFlowLogParser(unittest.TestCase):
         flow_logs = 'flow_logs.txt'
         tag_counts, port_protocol_counts = parse_and_process_logs(flow_logs, lookup)
 
-        self.assertEqual(tag_counts, {'sv_P2': 1, 'sv_P3': 1})
+        self.assertEqual(tag_counts, {'Untagged': 0, 'sv_P2': 1, 'sv_P3': 1})
         self.assertEqual(port_protocol_counts, {(443, 'tcp'): 1, (53, 'udp'): 1})
 
 if __name__ == '__main__':

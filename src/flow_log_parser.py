@@ -15,7 +15,7 @@ def parse_lookup_table(lookup_file):
 
 def parse_and_process_logs(flow_log_file, lookup):
     # Initialize dictionaries to store tag and port/protocol combination counts
-    tag_counts = {}
+    tag_counts = {'Untagged': 0}
     port_protocol_counts = {}
 
     with open(flow_log_file, mode='r') as file:
