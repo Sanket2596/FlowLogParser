@@ -38,3 +38,8 @@ Explanation for assumption -> w log entry doesn’t have a corresponding tag in 
 
 5) The program assumes the fields in each flow log entry follow the exact ordering as in the example logs (e.g., dstport at index 5 and protocol at index 7).
 -> Based on the provided sample output the program written mainly relies on the fixed positioning of these fields for parsing. If the log format changes or fields appear in a different order, the code will fail or produce incorrect results. SO the ordering of the log fields is assumed to be in the given order and will always remain in that order.
+
+
+# Test Cases: 
+
+1) 

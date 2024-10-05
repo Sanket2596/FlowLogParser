@@ -57,6 +57,8 @@ def parse_and_process_logs(flow_log_file, lookup):
 
 def write_output(tag_counts, port_protocol_counts, output_directory):
     tag_output_file = os.path.join(output_directory, 'tag_counts.csv')
+    
+    # Write Tag Counts -> this will print the output in the required format
     with open(tag_output_file, mode='w') as file:
         file.write("Tag,Count\n")
         for tag, count in tag_counts.items():
