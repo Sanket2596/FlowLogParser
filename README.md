@@ -40,9 +40,14 @@ Explanation for assumption -> w log entry doesn’t have a corresponding tag in 
 -> Based on the provided sample output the program written mainly relies on the fixed positioning of these fields for parsing. If the log format changes or fields appear in a different order, the code will fail or produce incorrect results. SO the ordering of the log fields is assumed to be in the given order and will always remain in that order.
 
 
-# Test Cases: 
+## Test Cases: 
 
-# Steps to exceute the Test cases:
-1) Create Input Files: For each test case, create flow_logs.txt and lookup_table.csv in the src directory as specified.
-2) Run the Code: Execute your Python script.
-3) Check Output Files: Verify the contents of the output files in the outputs directory against the expected output.
+1) Test Case 1 (Basic Functionality): Tests that the parser works correctly when there are matches between flow log entries and the lookup table.
+2) Test Case 2 (No Matches): Tests that the parser correctly categorizes entries as "Untagged" when there are no matches in the lookup table.
+3) Test Case 3 (Multiple Entries for the Same Tag): Tests that the parser counts multiple occurrences of the same port/protocol combination correctly.
+4) Test Case 4 (Mixed Protocols): Tests that the parser can handle entries with different protocols (TCP and UDP) and count them correctly.
+
+
+## Steps to exceute the Test cases:
+-> Run the following command for running the test case file:
+        python -m unittest test_flow_log_parser.py
