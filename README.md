@@ -49,6 +49,32 @@ Explanation for assumption -> log entry doesn’t have a corresponding tag in th
 
 4) Modularity: The code is well-structured and modularized with separate functions for different tasks, making it easier to read, maintain, and test the code.
 
+
+Discrepancy between expected and actual output:
+Actual output
+
+Tag,Count
+sv_P2,1
+sv_P1,2
+email,3
+Untagged,4
+
+Expected output:
+
+Tag Counts: 
+Tag,Count 
+sv_P2,1 
+sv_P1,2 
+sv_P4,1 
+email,3 
+Untagged,9      
+   
+The discrepancy between the actual output and the expected output primarily arises from two key issues:
+
+1) Missing Tag Count for sv_P4: The expected output includes a count for the tag sv_P4, indicating that there should be at least one flow log entry matching this tag. However, the actual output does not include sv_P4, thereby suggesting that flow logs either do not contain any entries that correspond to this tag, or the lookup table is does not provide correct mapping for the port and protocol associated with sv_P4.
+
+2) Lower Count for Untagged Entries: The expected output indicates a total of 9 entries categorized as Untagged, whereas the actual output shows only 4. This suggests that the flow log contains additional entries that do not match any of the tags in the lookup table. The discrepancy in the count implies that there are more unmatched entries in the flow logs than are being accounted for in the actual output, resulting in a lower count for Untagged.
+
 ## Test Cases: 
 
 1) Test Case 1 - Basic Functionality: Tests that the parser works correctly when there are matches between flow log entries and the lookup table.
