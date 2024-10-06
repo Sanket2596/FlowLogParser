@@ -39,13 +39,23 @@ Explanation for assumption -> log entry doesn’t have a corresponding tag in th
 5) The program assumes the fields in each flow log entry follow the exact ordering as in the example logs (e.g., dstport at index 5 and protocol at index 7).
 -> Based on the provided sample output the program written mainly relies on the fixed positioning of these fields for parsing. If the log format changes or fields appear in a different order, the code will fail or produce incorrect results. SO the ordering of the log fields is assumed to be in the given order and will always remain in that order.
 
+# General functioining or analysis of the code:
+
+1) Basic functionality: The script effectively reads network logs and correlates them with a predefined lookup table, helping to identify how often certain network interactions occur based on defined tags.
+
+2) Data Handling: The use of dictionaries allows for efficient lookups and counting, making the processing of logs straightforward.
+
+3) Output: Writing results to CSV files makes it easy to view and analyze the counts of tags and port/protocol combinations.
+
+4) Modularity: The code is well-structured and modularized with separate functions for different tasks, making it easier to read, maintain, and test the code.
 
 ## Test Cases: 
 
-1) Test Case 1 (Basic Functionality): Tests that the parser works correctly when there are matches between flow log entries and the lookup table.
-2) Test Case 2 (No Matches): Tests that the parser correctly categorizes entries as "Untagged" when there are no matches in the lookup table.
-3) Test Case 3 (Multiple Entries for the Same Tag): Tests that the parser counts multiple occurrences of the same port/protocol combination correctly.
-4) Test Case 4 (Mixed Protocols): Tests that the parser can handle entries with different protocols (TCP and UDP) and count them correctly.
+1) Test Case 1 - Basic Functionality: Tests that the parser works correctly when there are matches between flow log entries and the lookup table.
+2) Test Case 2 - No Matches: Tests that the parser correctly categorizes entries as "Untagged" when there are no matches in the lookup table.
+3) Test Case 3 - Multiple Entries for the Same Tag: Tests that the parser counts multiple occurrences of the same port/protocol combination correctly.
+4) Test Case 4 - Mixed Protocols: Tests that the parser can handle entries with different protocols (TCP and UDP) and count them correctly.
+5) Test Case 5 - Case insensitive: Test case to verify that the flow log parser correctly handles case insensitivity in protocol names when looking up tags from the lookup table.
 
 
 ## Steps to exceute the Test cases:

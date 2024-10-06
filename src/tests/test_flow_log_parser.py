@@ -80,6 +80,22 @@ class TestFlowLogParser(unittest.TestCase):
 
         self.assertEqual(tag_counts, {'Untagged': 0, 'sv_P2': 1, 'sv_P3': 1})
         self.assertEqual(port_protocol_counts, {(443, 'tcp'): 1, (53, 'udp'): 1})
+    
+    @patch('builtins.open', new_callable=mock_open)
+    def test_case_insensitivity(self, mock_file):
+        lookup_file = 'lookup_table.csv'
+        flow_log_file = 'flow_logs.txt'
+        
+        mock_flow_log_data = "2 2024-10-05 12:00:00 123 456 443 0 6 0 0 0 0 0\n"  # tcp
+        mock_flow_log_data = "2 2024-10-05 12:00:01 123 456 80 0 17 0 0 0 0 0\n"  # UDP
+
+        with patch('builtins.open', mock_open(read_data=mock_flow_log_data)) as mock_flow_log_file:
+            lookup = parse_lookup_table(lookup_file)
+            tag_counts, port_protocol_counts = parse_and_process_logs(flow_log_file, lookup)
+
+            # Assert that the tag counts account for both 'tcp' and 'UDP' correctly
+            self.assertEqual(tag_counts, {'Untagged': 1})  # sv_P2 for tcp, sv_P3 for UDP
+
 
 if __name__ == '__main__':
     unittest.main()
